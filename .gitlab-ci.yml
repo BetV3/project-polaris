@@ -26,7 +26,7 @@ format-check:
   stage: build
   image: ubuntu:22.04
   script:
-    - find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | xargs clang-format --dry-run --Werror
+    - find apps libs -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | xargs clang-format --dry-run --Werror
   only:
     - main
     - merge_requests
@@ -36,7 +36,7 @@ lint:
   image: ubuntu:22.04
   script:
     - cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-    - find . -name "*.cpp" | xargs clang-tidy --config-file=.clang-tidy
+    - find apps libs -name "*.cpp" | xargs clang-tidy --config-file=.clang-tidy -p build
   only:
     - main
     - merge_requests
