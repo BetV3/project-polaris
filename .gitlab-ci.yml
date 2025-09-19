@@ -1,0 +1,54 @@
+stages:
+  - build
+  - test
+
+variables:
+  CMAKE_BUILD_TYPE: Release
+
+before_script:
+  - apt-get update -qq && apt-get install -y cmake g++ make clang-format clang-tidy
+
+build:
+  stage: build
+  image: ubuntu:22.04
+  script:
+    - cmake -S . -B build -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+    - cmake --build build
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 hour
+  only:
+    - main
+    - merge_requests
+
+format-check:
+  stage: build
+  image: ubuntu:22.04
+  script:
+    - find . -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | xargs clang-format --dry-run --Werror
+  only:
+    - main
+    - merge_requests
+
+lint:
+  stage: build
+  image: ubuntu:22.04
+  script:
+    - cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    - find . -name "*.cpp" | xargs clang-tidy --config-file=.clang-tidy
+  only:
+    - main
+    - merge_requests
+
+test:
+  stage: test
+  image: ubuntu:22.04
+  dependencies:
+    - build
+  script:
+    - cd build
+    - ctest --output-on-failure
+  only:
+    - main
+    - merge_requests

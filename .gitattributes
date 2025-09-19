@@ -1,0 +1,23 @@
+* text=auto eol=lf
+
+*.cpp linguist-language=C++
+*.hpp linguist-language=C++
+*.h linguist-language=C++
+*.c linguist-language=C
+*.cc linguist-language=C++
+*.cxx linguist-language=C++
+
+*.md linguist-documentation
+*.txt linguist-documentation
+
+*.cmake linguist-language=CMake
+CMakeLists.txt linguist-language=CMake
+
+*.yml linguist-language=YAML
+*.yaml linguist-language=YAML
+
+*.json linguist-language=JSON
+
+*.py linguist-language=Python
+
+*.sh linguist-language=Shell

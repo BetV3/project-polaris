@@ -1,0 +1,5 @@
+add_subdirectory(hello)
+add_subdirectory(md_gen)
+add_subdirectory(feed)
+add_subdirectory(strat)
+add_subdirectory(oms)
